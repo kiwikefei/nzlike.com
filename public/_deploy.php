@@ -75,7 +75,6 @@ class Deployer
             'username' => $this->slackBot
         ];
         $payload = 'payload=' . json_encode($payload);
-        return $payload;
         $ch = curl_init($this->slackHook);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
