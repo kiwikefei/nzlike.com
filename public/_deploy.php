@@ -50,7 +50,7 @@ class Deployer
             shell_exec($command);
             $output .= $command . " is done \n";
         }
-        echo ($output);
+//        echo ($output);
         $link = "https://github.com/kiwikefei/nzlike.com/commit/{$_SERVER['HTTP_X_GITHUB_DELIVERY']}";
         $commitMessage = $this->notifyTo($this->payload->head_commit->committer->name) . "\n"
             . "New delivery is pushing the following commits to {$this->server}\n"
