@@ -45,24 +45,25 @@ class Deployer
         if (!$stagingEnv){
             return false;
         }
-        echo ('path=' . realpath(__DIR__ . '/../') . "\n");
         $output = '';
         foreach($this->commentsPipeline as $command) {
             shell_exec($command);
             $output .= $command . " is done \n";
         }
         echo ($output);
-
+        $link = "https://github.com/kiwikefei/nzlike.com/commit/{$_SERVER['HTTP_X_GITHUB_DELIVERY']}";
         $commitMessage = $this->notifyTo($this->payload->head_commit->committer->name) . "\n"
             . "New delivery is pushing the following commits to {$this->server}\n"
-            . " <https://github.com/kiwikefei/nzlike.com/commit/{$_SERVER['HTTP_X_GITHUB_DELIVERY']}\n|view commit>"
+            . " $link \n"
             . " \n---------------------------------------------\n";
 
         foreach($this->payload->commits as $commit) {
-            $committer = $commit->committer->name != $this->payload->head_commit->committer->name ?
-                '(committed by' . $commit->committer->name . ')' : '';
-            $commitMessage .= "{$commit->message} {$committer} \n";
+//            $committer = $commit->committer->name != $this->payload->head_commit->committer->name ?
+//                '(committed by' . $commit->committer->name . ')' : '';
+//            $commitMessage .= "{$commit->message} {$committer} \n";
+            $commitMessage .= "{$commit->message} (by: {$commit->committer->name}) \n";
         }
+        echo $commitMessage;
 //        $message = $this->sendSlackNotification($commitMessage);
 //        echo $output . $message;
 //        echo $output . $commitMessage;
