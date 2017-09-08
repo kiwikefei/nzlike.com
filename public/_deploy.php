@@ -57,11 +57,12 @@ class Deployer
         $link = "https://github.com/kiwikefei/nzlike.com/commit/{$_SERVER['HTTP_X_GITHUB_DELIVERY']}";
         $pusher = $this->payload->head_commit->committer;
         $commitMessage = $this->notifyTo($pusher->name) . "\n"
-            . " New delivery for [{$this->server}] , pushed by [{$pusher->name}] \n";
+            . " New delivery for [{$this->server}] , pushed by [{$pusher->name}] \n"
+            . " <{$pusher->compare}|review code>";
 
         foreach($this->payload->commits as $commit) {
             $committer = $commit->committer;
-            $commitMessage .= "        <$commit->url|[{$commit->message}]> [{$committer->name}] \n";
+            $commitMessage .= "        <$commit->url|[{$commit->message}]> by: [{$committer->name}] \n";
         }
         $message = $this->sendSlackNotification($commitMessage);
         echo $output . $message;
