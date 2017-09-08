@@ -56,8 +56,9 @@ class Deployer
 //        echo ($output);
         $pusher = $this->payload->head_commit->committer;
         $commitMessage = $this->notifyTo($pusher->name) . "\n"
-            . " New delivery({$_SERVER['HTTP_X_GITHUB_DELIVERY']}) for [{$this->server}] processed, pushed by [{$pusher->name}] \n"
-            . " <{$pusher->payload->compare}|review changes> \n";
+            . " New delivery({$_SERVER['HTTP_X_GITHUB_DELIVERY']}) for [{$this->server}] processed. \n"
+            . " pushed by [{$pusher->name}] \n"
+            . " <{$this->payload->compare}|review changes> \n";
 
         foreach($this->payload->commits as $commit) {
             $committer = $commit->committer;
