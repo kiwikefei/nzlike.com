@@ -63,14 +63,13 @@ class Deployer
 //            $commitMessage .= "{$commit->message} {$committer} \n";
             $commitMessage .= "{$commit->message} (by: {$commit->committer->name}.) \n";
         }
-        echo $commitMessage;
-//        $message = $this->sendSlackNotification($commitMessage);
-//        echo $output . $message;
-//        echo $output . $commitMessage;
+        $message = $this->sendSlackNotification($commitMessage);
+        echo $output . $message;
     }
 
     protected function sendSlackNotification($message)
     {
+        return $message;
         $payload = [
             'channel' => '#' . ltrim($this->slackChannel, '#'),
             'text' => urlencode($message),
