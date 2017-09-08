@@ -54,11 +54,10 @@ class Deployer
             $output .= $command . " is done \n";
         }
 //        echo ($output);
-        $link = "https://github.com/kiwikefei/nzlike.com/commit/{$_SERVER['HTTP_X_GITHUB_DELIVERY']}";
         $pusher = $this->payload->head_commit->committer;
         $commitMessage = $this->notifyTo($pusher->name) . "\n"
-            . " New delivery for [{$this->server}] , pushed by [{$pusher->name}] \n"
-            . " <{$pusher->compare}|review code> \n";
+            . " New delivery({$_SERVER['HTTP_X_GITHUB_DELIVERY']}) for [{$this->server}] processed, pushed by [{$pusher->name}] \n"
+            . " <{$pusher->payload->compare}|review changes> \n";
 
         foreach($this->payload->commits as $commit) {
             $committer = $commit->committer;
