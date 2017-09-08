@@ -59,9 +59,8 @@ class Deployer
             . " New delivery for [{$this->server}] , pushed by [{$this->payload->head_commit->committer->name}] \n";
 
         foreach($this->payload->commits as $commit) {
-            $committer = $commit->committer->name != $this->payload->head_commit->committer->name ?
-                '(committed by' . $commit->committer->name . ')' : '';
-            $commitMessage .= "    {$commit->message} [{$committer}] \n";
+            $committer = $commit->committer;
+            $commitMessage .= "    [{$commit->message}] [{$committer->name}] \n";
         }
         $message = $this->sendSlackNotification($commitMessage);
         echo $output . $message;
