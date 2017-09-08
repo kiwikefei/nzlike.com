@@ -69,13 +69,13 @@ class Deployer
 
     protected function sendSlackNotification($message)
     {
-        return $message;
         $payload = [
             'channel' => '#' . ltrim($this->slackChannel, '#'),
             'text' => urlencode($message),
             'username' => $this->slackBot
         ];
         $payload = 'payload=' . json_encode($payload);
+        return $payload;
         $ch = curl_init($this->slackHook);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
