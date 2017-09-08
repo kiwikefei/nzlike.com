@@ -55,7 +55,8 @@ class Deployer
         }
 //        echo ($output);
         $pusher = $this->payload->head_commit->committer;
-        $commitMessage = " New delivery for [{$this->server}] processed. \n"
+        $receiver = $this->notifyTo($pusher->name);
+        $commitMessage = " New delivery for [{$this->server}] processed. {$receiver}\n"
             . " Pushed by: [{$pusher->name}] \n"
             . " Review Changes: <{$this->payload->compare}|Click to view all changes> \n";
 
