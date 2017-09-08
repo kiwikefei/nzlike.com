@@ -61,7 +61,7 @@ class Deployer
 //            $committer = $commit->committer->name != $this->payload->head_commit->committer->name ?
 //                '(committed by' . $commit->committer->name . ')' : '';
 //            $commitMessage .= "{$commit->message} {$committer} \n";
-            $commitMessage .= "{$commit->message} (by: {$commit->committer->name}) \n";
+            $commitMessage .= "{$commit->message} (by: {$commit->committer->name}.) \n";
         }
         echo $commitMessage;
 //        $message = $this->sendSlackNotification($commitMessage);
