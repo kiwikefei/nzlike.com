@@ -61,7 +61,7 @@ class Deployer
         foreach($this->payload->commits as $commit) {
             $committer = $commit->committer->name != $this->payload->head_commit->committer->name ?
                 '(committed by' . $commit->committer->name . ')' : '';
-            $commitMessage .= "{$commit->message} {$committer} \n";
+            $commitMessage .= "    {$commit->message} [{$committer}] \n";
         }
         $message = $this->sendSlackNotification($commitMessage);
         echo $output . $message;
