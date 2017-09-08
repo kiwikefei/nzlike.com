@@ -55,7 +55,7 @@ class Deployer
 
         $commitMessage = $this->notifyTo($this->payload->head_commit->committer->name) . "\n"
             . "New delivery is pushing the following commits to {$this->server}\n"
-            . " https://github.com/kiwikefei/nzlike.com/commit/{$_SERVER['HTTP_X_GITHUB_DELIVERY']}\n"
+            . " <https://github.com/kiwikefei/nzlike.com/commit/{$_SERVER['HTTP_X_GITHUB_DELIVERY']}\n|view commit>"
             . " \n---------------------------------------------\n";
 
         foreach($this->payload->commits as $commit) {
