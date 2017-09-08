@@ -49,7 +49,6 @@ class Deployer
         // $this->payload->head_commit->committer->name
         // $_SERVER['HTTP_X_GITHUB_DELIVERY']
         // $this->server
-        // changes
 //        $commitMessage = $this->notifyTo($this->payload->head_commit->committer->name) . "\n"
 //
 //            . "The delivery (Ref: {$_SERVER['HTTP_X_GITHUB_DELIVERY']})"
