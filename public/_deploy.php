@@ -5,10 +5,10 @@ class Deployer
     protected $event;
     protected $payload;
     protected $output;
-    protected $slackHook;
-    protected $slackTeam;
-    protected $slackChannel;
-    protected $slackBot;
+    protected $slackHook = 'https://hooks.slack.com/services/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';
+    protected $slackTeam = 'https://kiwistyle.slack.com/team/';
+    protected $slackChannel = '#deployment';
+    protected $slackBot = 'DeployBot';
     protected $commentsPipeline = [
         'git reset --hard HEAD',
         'git checkout master',
@@ -21,10 +21,6 @@ class Deployer
         $this->server = $server;
         $this->event = $event;
         $this->payload = json_decode( file_get_contents('php://input') );
-        $this->slackHook = config('slack.hook');
-        $this->slackTeam = config('slack.team');
-        $this->slackChannel = '#deployment';
-        $this->slackBot = 'DeployBot';
     }
     protected function isPost()
     {
