@@ -5,16 +5,26 @@ class Deployer
     protected $event;
     protected $payload;
     protected $output;
+    protected $slackHook;
+    protected $slackTeam;
+    protected $slackChannel;
+    protected $slackBot;
     protected $commentsPipeline = [
         'git reset --hard HEAD',
         'git checkout master',
         'git pull origin master',
+        'php artisan migrate',
+        'npm run production'
     ];
     public function __construct($server, $event)
     {
         $this->server = $server;
         $this->event = $event;
         $this->payload = json_decode( file_get_contents('php://input') );
+        $this->slackHook = config('slack.hook');
+        $this->slackTeam = config('slack.team');
+        $this->slackChannel = '#deployment';
+        $this->slackBot = 'DeployBot';
     }
     protected function isPost()
     {
@@ -46,20 +56,57 @@ class Deployer
             $output .= $command . " is done \n";
         }
         echo ($output);
-        // $this->payload->head_commit->committer->name
-        // $_SERVER['HTTP_X_GITHUB_DELIVERY']
-        // $this->server
-//        $commitMessage = $this->notifyTo($this->payload->head_commit->committer->name) . "\n"
-//
-//            . "The delivery (Ref: {$_SERVER['HTTP_X_GITHUB_DELIVERY']})"
-//            . " is pushing the following commits to {$this->server}"
-//            . " \n---------------------------------------------\n";
-//        foreach($this->payload->commits as $commit) {
-//            $committer = $commit->committer->name != $this->payload->head_commit->committer->name ? '(committed by' . $commit->committer->name . ')' : '';
-//            $commitMessage .= "{$commit->message} {$committer} \n";
-//        }
-//        $message = $this->sendSlackNotification($commitMessage);
-//        echo $output . $message;
+        $commitMessage = $this->notifyTo($this->payload->head_commit->committer->name) . "\n"
+            . "The delivery (Ref: {$_SERVER['HTTP_X_GITHUB_DELIVERY']})"
+            . " is pushing the following commits to {$this->server}"
+            . " \n---------------------------------------------\n";
+        foreach($this->payload->commits as $commit) {
+            $committer = $commit->committer->name != $this->payload->head_commit->committer->name ? '(committed by' . $commit->committer->name . ')' : '';
+            $commitMessage .= "{$commit->message} {$committer} \n";
+        }
+        $message = $this->sendSlackNotification($commitMessage);
+        echo $output . $message;
+    }
+
+    protected function sendSlackNotification($message)
+    {
+        $payload = [
+            'channel' => '#' . ltrim($this->slackChannel, '#'),
+            'text' => urlencode($message),
+            'username' => $this->slackBot
+        ];
+        $payload = 'payload=' . json_encode($payload);
+        $ch = curl_init($this->slackHook);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $result = curl_exec($ch);
+        if ($result === false) {
+            $message .= 'Curl error' . curl_error($ch) . "\n";
+        }
+        else {
+            $message .= "Slack notification status: {$result} \n";
+        }
+        curl_close($ch);
+        return $message;
+    }
+    protected function htmlReplace($string) {
+        // https://api.slack.com/docs/message-formatting#how_to_escape_characters
+        // Also use backslashes to escape double quotes/backslashes themselves,
+        // that would otherwise break the JSON.
+        // (deal with the slashes before the quotes otherwise the escaped quotes would be re-escaped!)
+        // test auto deployment.
+        return str_replace(array('&', '<', '>', '\\', '"'), array('&amp;', '&lt;', '&gt;', '\\\\', '\"'), $string);
+    }
+    protected function notifyTo($gitHubName)
+    {
+        $nameMap = [
+            'Andy Tang' => '@andy',
+        ];
+        if (isset($nameMap[$gitHubName])) {
+            return '<' . $this->slackTeam . '|' . $nameMap[$gitHubName] . '>';
+        }
+        return '@all';
     }
 }
 $deployer = new Deployer('nzlike.com', 'refs/heads/master');
