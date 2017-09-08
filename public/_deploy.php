@@ -53,8 +53,7 @@ class Deployer
 //        echo ($output);
         $link = "https://github.com/kiwikefei/nzlike.com/commit/{$_SERVER['HTTP_X_GITHUB_DELIVERY']}";
         $commitMessage = $this->notifyTo($this->payload->head_commit->committer->name) . "\n"
-            . "New delivery <{$this->server}>\n"
-            . " ---------------------------------------------\n";
+            . " New delivery for {$this->server} \n";
 
         foreach($this->payload->commits as $commit) {
             $committer = $commit->committer->name != $this->payload->head_commit->committer->name ?
