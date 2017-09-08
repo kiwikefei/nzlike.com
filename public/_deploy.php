@@ -16,9 +16,6 @@ class Deployer
         'php artisan migrate',
 //        'npm run production'
     ];
-    // test
-    // commit 1
-    // commit 2
     public function __construct($server, $event)
     {
         $this->server = $server;
