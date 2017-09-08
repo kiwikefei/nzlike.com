@@ -14,7 +14,7 @@
         <style>
             html, body {
                 background-color: #fff;
-                color: #000;
+                color: #133d55;
                 font-family: 'Lato', sans-serif;
                 height: 100vh;
                 margin: 0;
