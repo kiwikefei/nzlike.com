@@ -54,11 +54,12 @@ class Deployer
         echo ($output);
         // test
         $commitMessage = $this->notifyTo($this->payload->head_commit->committer->name) . "\n"
-            . "The delivery (Ref: {$_SERVER['HTTP_X_GITHUB_DELIVERY']})"
-            . " is pushing the following commits to {$this->server}"
+            . "New delivery is pushing the following commits to {$this->server}\n"
+            . " https://github.com/kiwikefei/nzlike.com/commit/{$_SERVER['HTTP_X_GITHUB_DELIVERY']}\n"
             . " \n---------------------------------------------\n";
         foreach($this->payload->commits as $commit) {
-            $committer = $commit->committer->name != $this->payload->head_commit->committer->name ? '(committed by' . $commit->committer->name . ')' : '';
+            $committer = $commit->committer->name != $this->payload->head_commit->committer->name ?
+                '(committed by' . $commit->committer->name . ')' : '';
             $commitMessage .= "{$commit->message} {$committer} \n";
         }
         $message = $this->sendSlackNotification($commitMessage);
