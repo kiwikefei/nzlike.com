@@ -65,7 +65,7 @@ class Deployer
         }
 //        $message = $this->sendSlackNotification($commitMessage);
 //        echo $output . $message;
-        echo $output . $commitMessage;
+//        echo $output . $commitMessage;
     }
 
     protected function sendSlackNotification($message)
