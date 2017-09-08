@@ -56,6 +56,7 @@ class Deployer
             $output .= $command . " is done \n";
         }
         echo ($output);
+        // test
         $commitMessage = $this->notifyTo($this->payload->head_commit->committer->name) . "\n"
             . "The delivery (Ref: {$_SERVER['HTTP_X_GITHUB_DELIVERY']})"
             . " is pushing the following commits to {$this->server}"
