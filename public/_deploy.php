@@ -57,7 +57,7 @@ class Deployer
         $pusher = $this->payload->head_commit->committer;
         $commitMessage = " New delivery for [{$this->server}] processed. \n"
             . " Pushed by: [{$pusher->name}] \n"
-            . " Review Changes: <{$this->payload->compare}|Click to View> \n";
+            . " Review Changes: <{$this->payload->compare}|Click to view all changes> \n";
 
         foreach($this->payload->commits as $commit) {
             $committer = $commit->committer;
