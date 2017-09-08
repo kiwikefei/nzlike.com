@@ -55,14 +55,18 @@ class Deployer
         }
 //        echo ($output);
         $pusher = $this->payload->head_commit->committer;
-        $commitMessage = $this->notifyTo($pusher->name) . "\n"
-            . " New delivery({$_SERVER['HTTP_X_GITHUB_DELIVERY']}) for [{$this->server}] processed. \n"
-            . " pushed by [{$pusher->name}] \n"
-            . " <{$this->payload->compare}|review changes> \n";
+        $commitMessage = " New delivery for [{$this->server}] processed. \n"
+            . " Pushed by: [{$pusher->name}] \n"
+            . " Review Changes: <{$this->payload->compare}|Click to View> \n";
 
         foreach($this->payload->commits as $commit) {
             $committer = $commit->committer;
-            $commitMessage .= "        <$commit->url|[{$commit->message}]> by:({$committer->name}) \n";
+            if($committer->name == $pusher->name){
+                $commitMessage .= "        => <$commit->url|[{$commit->message}]> \n";
+            }else{
+                $commitMessage .= "        => <$commit->url|[{$commit->message}]> by:({$committer->name}) \n";
+            }
+
         }
         $message = $this->sendSlackNotification($commitMessage);
         echo $output . $message;
