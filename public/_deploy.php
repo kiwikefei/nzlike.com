@@ -14,7 +14,7 @@ class Deployer
         'git checkout master',
         'git pull origin master',
         'php artisan migrate',
-        'npm run production'
+//        'npm run production'
     ];
     public function __construct($server, $event)
     {
@@ -52,18 +52,20 @@ class Deployer
             $output .= $command . " is done \n";
         }
         echo ($output);
-        // test
+
         $commitMessage = $this->notifyTo($this->payload->head_commit->committer->name) . "\n"
             . "New delivery is pushing the following commits to {$this->server}\n"
             . " https://github.com/kiwikefei/nzlike.com/commit/{$_SERVER['HTTP_X_GITHUB_DELIVERY']}\n"
             . " \n---------------------------------------------\n";
+
         foreach($this->payload->commits as $commit) {
             $committer = $commit->committer->name != $this->payload->head_commit->committer->name ?
                 '(committed by' . $commit->committer->name . ')' : '';
             $commitMessage .= "{$commit->message} {$committer} \n";
         }
-        $message = $this->sendSlackNotification($commitMessage);
-        echo $output . $message;
+//        $message = $this->sendSlackNotification($commitMessage);
+//        echo $output . $message;
+        echo $output . $commitMessage;
     }
 
     protected function sendSlackNotification($message)
