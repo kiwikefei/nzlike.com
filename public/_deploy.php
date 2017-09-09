@@ -53,7 +53,7 @@ class Deployer
         $pusher = $this->payload->head_commit->committer;
         $receiver = $this->notifyTo($pusher->name);
         $commitMessage = " New delivery for [{$this->server}] processed. {$receiver}\n"
-            . " Pushed by: [{$pusher->name}] \n"
+//            . " Pushed by: [{$pusher->name}] \n"
             . " Review Changes: <{$this->payload->compare}| click to review all changes> \n"
             . " Commits: listed as following...\n";
 
@@ -82,14 +82,15 @@ class Deployer
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $result = curl_exec($ch);
+        $msg = '';
         if ($result === false) {
-            $message .= 'Curl error' . curl_error($ch) . "\n";
+            $msg = 'Curl error' . curl_error($ch) . "\n";
         }
         else {
-            $message .= "Slack notification status: {$result} \n";
+            $msg = "Slack notification status: {$result} \n";
         }
         curl_close($ch);
-        return $message;
+        return $msg;
     }
     protected function htmlReplace($string) {
         // https://api.slack.com/docs/message-formatting#how_to_escape_characters
