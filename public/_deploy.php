@@ -17,7 +17,7 @@ class Deployer
     ];
     protected $commentsPostSlackNotification = [
         'npm run production',
-    ]
+    ];
     public function __construct($server, $event)
     {
         $this->server = $server;
@@ -70,12 +70,12 @@ class Deployer
         }
         $message = $this->sendSlackNotification($commitMessage);
         echo $output . $message;
-//        $output = '';
-//        foreach($this->commentsPostSlackNotification as $command) {
-//            shell_exec($command);
-//            $output .= $command . " is done \n";
-//        }
-//        echo $output;
+        $output = '';
+        foreach($this->commentsPostSlackNotification as $command) {
+            shell_exec($command);
+            $output .= $command . " is done \n";
+        }
+        echo $output;
     }
 
     protected function sendSlackNotification($message)
