@@ -13,9 +13,9 @@ class Deployer
         'git reset --hard HEAD',
         'git checkout master',
         'git pull origin master',
+        'php artisan migrate',
     ];
     protected $commentsPostSlackNotification = [
-        'php artisan migrate',
         'npm run production',
     ]
     public function __construct($server, $event)
@@ -70,12 +70,12 @@ class Deployer
         }
         $message = $this->sendSlackNotification($commitMessage);
         echo $output . $message;
-        $output = '';
-        foreach($this->commentsPostSlackNotification as $command) {
-            shell_exec($command);
-            $output .= $command . " is done \n";
-        }
-        echo $output;
+//        $output = '';
+//        foreach($this->commentsPostSlackNotification as $command) {
+//            shell_exec($command);
+//            $output .= $command . " is done \n";
+//        }
+//        echo $output;
     }
 
     protected function sendSlackNotification($message)
