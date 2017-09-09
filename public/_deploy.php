@@ -52,11 +52,9 @@ class Deployer
             shell_exec($command);
             $output .= $command . " is done \n";
         }
-
         $pusher = $this->payload->head_commit->committer;
         $receiver = $this->notifyTo($pusher->name);
-        $commitMessage = "============================="
-            . " New delivery for [{$this->server}] processed. {$receiver}\n"
+        $commitMessage = " New delivery for [{$this->server}] processed. {$receiver}\n"
             . " Pushed by: [{$pusher->name}] \n"
             . " Review Changes: <{$this->payload->compare}| click to review all changes> \n"
             . " Commits: listed as following...\n";
