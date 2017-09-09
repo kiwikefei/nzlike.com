@@ -67,7 +67,7 @@
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div class="title m-b-md">
-                    HELLO NZLIKE
+                    HELLO NZLIKE.COM
                 </div>
             </div>
         </div>
