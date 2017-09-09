@@ -14,7 +14,7 @@ class Deployer
         'git checkout master',
         'git pull origin master',
         'php artisan migrate',
-        'npm run production  2>&1',
+//        'npm run production  2>&1',
     ];
     public function __construct($server, $event)
     {
@@ -64,7 +64,6 @@ class Deployer
             }else{
                 $commitMessage .= "        => <$commit->url|[{$commit->message}]> by:({$committer->name}) \n";
             }
-
         }
         $message = $this->sendSlackNotification($commitMessage);
         echo $output . $message;
