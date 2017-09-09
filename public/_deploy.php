@@ -97,7 +97,6 @@ class Deployer
         // Also use backslashes to escape double quotes/backslashes themselves,
         // that would otherwise break the JSON.
         // (deal with the slashes before the quotes otherwise the escaped quotes would be re-escaped!)
-        // test auto deployment.
         return str_replace(array('&', '<', '>', '\\', '"'), array('&amp;', '&lt;', '&gt;', '\\\\', '\"'), $string);
     }
     protected function notifyTo($gitHubName)
