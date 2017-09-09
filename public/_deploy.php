@@ -48,7 +48,7 @@ class Deployer
             return false;
         }
         $output = '';
-        foreach($this->commentsBeforeSlackNotification $command) {
+        foreach($this->commentsBeforeSlackNotification as $command) {
             shell_exec($command);
             $output .= $command . " is done \n";
         }
@@ -70,12 +70,12 @@ class Deployer
         }
         $message = $this->sendSlackNotification($commitMessage);
         echo $output . $message;
-//        $output = '';
-//        foreach($this->commentsPostSlackNotification as $command) {
-//            shell_exec($command);
-//            $output .= $command . " is done \n";
-//        }
-//        echo $output;
+        $output = '';
+        foreach($this->commentsPostSlackNotification as $command) {
+            shell_exec($command);
+            $output .= $command . " is done \n";
+        }
+        echo $output;
     }
 
     protected function sendSlackNotification($message)
