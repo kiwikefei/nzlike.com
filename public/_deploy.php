@@ -9,14 +9,12 @@ class Deployer
     protected $slackTeam = 'https://kiwistyle.slack.com/team/';
     protected $slackChannel = '#deployment';
     protected $slackBot = 'DeployBot';
-    protected $commentsBeforeSlackNotification = [
+    protected $comments = [
         'git reset --hard HEAD',
         'git checkout master',
         'git pull origin master',
         'php artisan migrate',
-    ];
-    protected $commentsPostSlackNotification = [
-        'npm run production',
+        'npm run production  2>&1',
     ];
     public function __construct($server, $event)
     {
@@ -48,7 +46,7 @@ class Deployer
             return false;
         }
         $output = '';
-        foreach($this->commentsBeforeSlackNotification as $command) {
+        foreach($this->comments as $command) {
             shell_exec($command);
             $output .= $command . " is done \n";
         }
@@ -70,12 +68,6 @@ class Deployer
         }
         $message = $this->sendSlackNotification($commitMessage);
         echo $output . $message;
-        $output = '';
-        foreach($this->commentsPostSlackNotification as $command) {
-            shell_exec($command);
-            $output .= $command . " is done \n";
-        }
-        echo $output;
     }
 
     protected function sendSlackNotification($message)
