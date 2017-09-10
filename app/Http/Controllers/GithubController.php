@@ -8,6 +8,7 @@ class GithubController extends Controller
 {
     public function callback(Request $request)
     {
-        dd($request->all());
+        $payload = $request->payload;
+        echo($payload->ref);
     }
 }
