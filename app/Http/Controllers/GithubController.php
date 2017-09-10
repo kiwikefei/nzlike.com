@@ -9,11 +9,12 @@ class GithubController extends Controller
     public function callback(Request $request)
     {
         $xEvent = $request->header('X-GitHub-Event');
+        $xSignature =  $request->header('X-Hub-Signature');
         $payload = json_decode($request->getContent());
         echo ("{$xEvent}\n");
         echo ("{$payload->ref}\n");
         \Log::info($xEvent);
         \Log::info($payload->ref);
-        \Log::info($payload->secret);
+        \Log::info($xSignature);
     }
 }
