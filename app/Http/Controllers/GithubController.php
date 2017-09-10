@@ -14,5 +14,6 @@ class GithubController extends Controller
         echo ("{$payload->ref}\n");
         \Log::info($xEvent);
         \Log::info($payload->ref);
+        \Log::info($payload);
     }
 }
