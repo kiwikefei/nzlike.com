@@ -9,6 +9,6 @@ class GithubController extends Controller
     public function callback(Request $request)
     {
         $payload = $request->payload;
-        echo($payload->ref);
+        echo(gettype($payload));
     }
 }
