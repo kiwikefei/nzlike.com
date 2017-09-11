@@ -32,9 +32,10 @@ class DeployWeb extends Command
      * @return void
      */
     protected $payload;
-    public function __construct()
+    public function __construct($payload)
     {
         parent::__construct();
+        $this->payload = $payload;
     }
 
     /**
