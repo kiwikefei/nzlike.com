@@ -26,6 +26,7 @@ class GithubDeployListener
      */
     public function handle(GithubPushed $event)
     {
-        \Log::info($event->payload->ref);
+        \Log::info('listener...' . $event->payload->ref);
+        \Artisan::command('web:deploy', $event->payload);
     }
 }
