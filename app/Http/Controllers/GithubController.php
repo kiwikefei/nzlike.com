@@ -18,7 +18,7 @@ class GithubController extends Controller
         }
         $githubContent = $request->getContent();
         $githubWebhookSecret = config('deploy.github.webhook_key');
-        dd($githubWebhookSecret);
+        \Log::info($githubWebhookSecret);
         if($githubWebhookSecret){
             $githubSignature =  $request->header('X-Hub-Signature');
             $githubSignatureCheck =  'sha1=' . hash_hmac('sha1', $githubContent, 'secret');
