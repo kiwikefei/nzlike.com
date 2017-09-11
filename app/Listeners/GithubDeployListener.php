@@ -6,7 +6,7 @@ use App\Events\GithubPushed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class GithubDeployListener
+class GithubDeployListener implements ShouldQueue
 {
     /**
      * Create the event listener.
