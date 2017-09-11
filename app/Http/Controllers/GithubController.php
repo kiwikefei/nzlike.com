@@ -8,16 +8,18 @@ class GithubController extends Controller
 {
     public function callback(Request $request)
     {
-        $xEvent = $request->header('X-GitHub-Event');
-        $xSignature =  $request->header('X-Hub-Signature');
-        $xSignatureCheck =  'sha1=' . hash_hmac('sha1', $request->getContent(), 'secret');
-
+        $githubEvent = $request->header('X-GitHub-Event');
+        $githubSignature =  $request->header('X-Hub-Signature');
+        $githubContent = $request->getContent();
+        $githubSignatureCheck =  'sha1=' . hash_hmac('sha1', $githubContent, 'secret');
         $payload = json_decode($request->getContent());
-        echo ("{$xEvent}\n");
+
+        echo ("{$githubEvent}\n");
         echo ("{$payload->ref}\n");
-        \Log::info($xEvent);
+        
+        \Log::info($githubEvent);
         \Log::info($payload->ref);
-        \Log::info($xSignature);
-        \Log::info($xSignatureCheck);
+        \Log::info($githubSignature);
+        \Log::info($githubSignatureCheck);
     }
 }
