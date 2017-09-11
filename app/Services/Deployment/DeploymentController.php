@@ -48,7 +48,7 @@ class DeploymentController extends Controller
         }
         DeployWebsiteJob::dispatch($payload);
         return response()->json([
-            'message'    => 'website deployment job dispatched.'
+            'message'    => 'DeployWebsite job dispatched.'
         ], 200);
     }
 }
