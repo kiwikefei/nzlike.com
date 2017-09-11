@@ -37,7 +37,7 @@ class DeployWebsiteJob implements ShouldQueue
 
         Log::info('Starting executing commands.');
         foreach($this->commends as $command) {
-            Log::info('command => ' . $command . ' starting')
+            Log::info('command => ' . $command . ' starting');
             shell_exec($command);
             Log::info('command => ' . $command . ' done.');
         }
