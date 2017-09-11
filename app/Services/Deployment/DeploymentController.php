@@ -18,6 +18,7 @@ class DeploymentController extends Controller
         }
 
         $githubContent = $request->getContent();
+
         $githubWebhookSecret = config('deploy.github.webhook_key');
 
         if($githubWebhookSecret){

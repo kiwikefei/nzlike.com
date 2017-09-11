@@ -35,9 +35,11 @@ class DeployWebsiteJob implements ShouldQueue
 
         chdir(base_path());
 
+        Log::info('Starting executing commands.');
         foreach($this->commends as $command) {
+            Log::info('command => ' . $command . ' starting')
             shell_exec($command);
-            Log::info('command..' . $command . ' is done');
+            Log::info('command => ' . $command . ' done.');
         }
         Log::info('All commands executed.');
         return true;
