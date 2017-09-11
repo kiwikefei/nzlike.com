@@ -12,7 +12,7 @@ class GithubController extends Controller
         $githubEvent = $request->header('X-GitHub-Event');
         $githubSignature =  $request->header('X-Hub-Signature');
         $githubContent = $request->getContent();
-        $githubSignatureCheck =  'sha1=a' . hash_hmac('sha1', $githubContent, 'secret');
+        $githubSignatureCheck =  'sha1=' . hash_hmac('sha1', $githubContent, 'secret');
         $payload = json_decode($request->getContent());
 
         echo ("{$githubEvent}\n");
@@ -23,5 +23,6 @@ class GithubController extends Controller
         \Log::info($githubSignature);
         \Log::info($githubSignatureCheck);
         \Log::info(hash_equals($githubSignature,$githubSignatureCheck));
+        \Log::info(shell_exec('ls -la'));
     }
 }
