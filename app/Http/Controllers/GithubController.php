@@ -13,17 +13,25 @@ class GithubController extends Controller
 
         if($githubEvent != 'push'){
             $message = "push event not received.";
-            \Log::info($message);
             return response()->json(['message'  => $message], 403);
         }
+
         $githubContent = $request->getContent();
         $githubWebhookSecret = config('deploy.github.webhook_key');
+
         if($githubWebhookSecret){
             $githubSignature =  $request->header('X-Hub-Signature');
-            $githubSignatureCheck =  'sha1=' . hash_hmac('sha1', $githubContent, $githubWebhookSecret);
+
+            if (!$githubSignature) {
+                $message = "github signature required.";
+                return response()->json(['message'  => $message], 403);
+            }
+
+            $githubSignatureCheck =  'sha1=' .
+                hash_hmac('sha1', $githubContent, $githubWebhookSecret);
+
             if(!hash_equals($githubSignature,$githubSignatureCheck)){
                 $message = "github signature doesn't match.";
-                \Log::info($message);
                 return response()->json(['message'  => $message], 403);
             }
         }
@@ -37,7 +45,7 @@ class GithubController extends Controller
                 'message' => $message
             ], 404);
         }
-        event()->fire(new GithubPushed($payload));
+        event(new GithubPushed($payload));
         \Log::info(shell_exec('ls -la'));
         return response()->json([
            'message'    => 'github push processed.'
