@@ -18,10 +18,10 @@ class GithubController extends Controller
         }
         $githubContent = $request->getContent();
         $githubWebhookSecret = config('deploy.github.webhook_key');
-        \Log::info($githubWebhookSecret);
         if($githubWebhookSecret){
             $githubSignature =  $request->header('X-Hub-Signature');
-            $githubSignatureCheck =  'sha1=' . hash_hmac('sha1', $githubContent, 'secret');
+            $githubSignatureCheck =  'sha1=' . hash_hmac('sha1', $githubContent, $githubWebhookSecret);
+            \Log::info($githubSignature,$githubSignatureCheck);
             if(hash_equals($githubSignature,$githubSignatureCheck)){
                 $message = "github signature doesn't match.";
                 \Log::info($message);
