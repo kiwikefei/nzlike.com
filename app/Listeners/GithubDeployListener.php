@@ -28,6 +28,6 @@ class GithubDeployListener
     {
         \Log::info('listener...' . $event->payload->ref);
 //        \Artisan::command('web:deploy {payload}', $event->payload);
-        \Artisan::call('web:deploy', ['payload' => $event->payload]);
+        \Artisan::call('web:deploy');
     }
 }
