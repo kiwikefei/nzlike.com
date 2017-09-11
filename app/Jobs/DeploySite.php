@@ -30,6 +30,8 @@ class DeploySite implements ShouldQueue
      */
     public function handle()
     {
+        \Log::info('dispatching deploy job');
+        \Log::info("payload: {$this->payload->ref}");
         \Artisan::call('web:deploy');
     }
 }
