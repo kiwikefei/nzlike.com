@@ -48,7 +48,7 @@ class DeployWeb extends Command
             return $this->error('cant deploy website on local');
         }
         chdir(base_path());
-        foreach($this->comments as $command) {
+        foreach($this->commends as $command) {
             shell_exec($command);
             \Log::info('command..' . $command . 'is done');
         }
