@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Jobs\DeploySite;
 use App\Events\GithubPushed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -26,9 +27,7 @@ class GithubDeployListener implements ShouldQueue
      */
     public function handle(GithubPushed $event)
     {
-        \Log::info('listener...' . $event->payload->ref);
-        // using queue
+        DeploySite::dispatch($event->payload);
 //        \Artisan::command('web:deploy {payload}', $event->payload);
-        \Artisan::call('web:deploy');
     }
 }
