@@ -46,7 +46,6 @@ class GithubController extends Controller
             ], 404);
         }
         event(new GithubPushed($payload));
-        \Log::info(shell_exec('ls -la'));
         return response()->json([
            'message'    => 'github push processed.'
         ], 200);
