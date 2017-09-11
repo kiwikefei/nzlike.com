@@ -24,7 +24,7 @@ class DeployWeb extends Command
         'git checkout master',
         'git pull origin master',
         'php artisan migrate',
-        'npm run production  2>&1',
+//        'npm run production  2>&1',
     ];
     /**
      * Create a new command instance.
@@ -50,7 +50,7 @@ class DeployWeb extends Command
         chdir(base_path());
         foreach($this->commends as $command) {
             shell_exec($command);
-            \Log::info('command..' . $command . 'is done');
+            \Log::info('command..' . $command . ' is done');
         }
         return true;
 
