@@ -19,7 +19,8 @@ class DeployWeb extends Command
      * @var string
      */
     protected $description = 'Deploy website';
-    // using queue for npm run production
+    // using queue for npm run production.
+    // add supervisor to handle the background queue worker stuff
     protected $commends = [
         'git reset --hard HEAD',
         'git checkout master',
@@ -53,6 +54,7 @@ class DeployWeb extends Command
             shell_exec($command);
             \Log::info('command..' . $command . ' is done');
         }
+        \Log::info('All commands executed.');
         return true;
 
     }
