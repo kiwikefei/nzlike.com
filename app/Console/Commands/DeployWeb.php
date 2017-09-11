@@ -24,7 +24,7 @@ class DeployWeb extends Command
         'git checkout master',
         'git pull origin master',
         'php artisan migrate',
-//        'npm run production  2>&1',
+        'npm run production  2>&1',
     ];
     /**
      * Create a new command instance.
