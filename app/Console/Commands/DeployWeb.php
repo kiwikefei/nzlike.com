@@ -19,6 +19,7 @@ class DeployWeb extends Command
      * @var string
      */
     protected $description = 'Deploy website';
+    // using queue for npm run production
     protected $commends = [
         'git reset --hard HEAD',
         'git checkout master',
