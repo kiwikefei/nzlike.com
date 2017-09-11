@@ -13,8 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\GithubPushed' => [
-            'App\Listeners\GithubDeployListener',
+        'App\Events\Something' => [
+            'App\Listeners\SomethingListener',
         ],
     ];
 
