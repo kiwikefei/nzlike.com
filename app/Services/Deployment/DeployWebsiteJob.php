@@ -42,6 +42,5 @@ class DeployWebsiteJob implements ShouldQueue
             Log::info('command => ' . $command . ' done.');
         }
         Log::info('All commands executed.');
-//        return true;
     }
 }
