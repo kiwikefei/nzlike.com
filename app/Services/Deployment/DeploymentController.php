@@ -48,7 +48,7 @@ class DeploymentController extends Controller
         }
         DeployWebsiteJob::dispatch($payload);
         return response()->json([
-            'message'    => 'github push processed.'
+            'message'    => 'website deployment job dispatched.'
         ], 200);
     }
 }
