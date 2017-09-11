@@ -10,11 +10,14 @@ class GithubController extends Controller
     {
         $xEvent = $request->header('X-GitHub-Event');
         $xSignature =  $request->header('X-Hub-Signature');
+        $xSignatureCheck =  'sha1=' . hash_hmac('sha1', $request->getContent(), 'secret');
+
         $payload = json_decode($request->getContent());
         echo ("{$xEvent}\n");
         echo ("{$payload->ref}\n");
         \Log::info($xEvent);
         \Log::info($payload->ref);
         \Log::info($xSignature);
+        \Log::info($xSignatureCheck);
     }
 }
