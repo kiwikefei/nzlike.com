@@ -47,12 +47,12 @@ class DeployWeb extends Command
         if(app()->environment() === 'local'){
             return $this->error('cant deploy website on local');
         }
-        \Log::info(app_path());
-        \Log::info(base_path());
+        chdir(base_path());
+        foreach($this->comments as $command) {
+            shell_exec($command);
+            \Log::info('command..' . $command . 'is done');
+        }
         return true;
-//        foreach($this->comments as $command) {
-//            shell_exec($command);
-//            \Log::info('command..' . $command . 'is done');
-//        }
+
     }
 }
