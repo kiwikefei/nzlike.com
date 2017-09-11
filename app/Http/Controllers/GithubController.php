@@ -10,13 +10,15 @@ class GithubController extends Controller
     public function callback(Request $request)
     {
         $githubEvent = $request->header('X-GitHub-Event');
-        $githubContent = $request->getContent();
-        $githubWebhookSecret = config('deploy.github.webhook_key');
+
         if($githubEvent != 'push'){
             $message = "push event not received.";
             \Log::info($message);
             return response()->json(['message'  => $message], 403);
         }
+        $githubContent = $request->getContent();
+        $githubWebhookSecret = config('deploy.github.webhook_key');
+        dd($githubWebhookSecret);
         if($githubWebhookSecret){
             $githubSignature =  $request->header('X-Hub-Signature');
             $githubSignatureCheck =  'sha1=' . hash_hmac('sha1', $githubContent, 'secret');
@@ -26,6 +28,7 @@ class GithubController extends Controller
                 return response()->json(['message'  => $message], 403);
             }
         }
+
         $payload = json_decode($request->getContent());
 
         if( $payload->ref != config('deploy.github.branch')) {
