@@ -27,6 +27,7 @@ class GithubDeployListener implements ShouldQueue
     public function handle(GithubPushed $event)
     {
         \Log::info('listener...' . $event->payload->ref);
+        // using queue
 //        \Artisan::command('web:deploy {payload}', $event->payload);
         \Artisan::call('web:deploy');
     }
