@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use function hash_equals;
+use App\Events\GithubPushed;
 use Illuminate\Http\Request;
 
 class GithubController extends Controller
@@ -10,19 +10,35 @@ class GithubController extends Controller
     public function callback(Request $request)
     {
         $githubEvent = $request->header('X-GitHub-Event');
-        $githubSignature =  $request->header('X-Hub-Signature');
         $githubContent = $request->getContent();
-        $githubSignatureCheck =  'sha1=' . hash_hmac('sha1', $githubContent, 'secret');
+        $githubWebhookSecret = config('deploy.github.webhook_key');
+        if($githubEvent != 'push'){
+            $message = "push event not received.";
+            \Log::info($message);
+            return response()->json(['message'  => $message], 403);
+        }
+        if($githubWebhookSecret){
+            $githubSignature =  $request->header('X-Hub-Signature');
+            $githubSignatureCheck =  'sha1=' . hash_hmac('sha1', $githubContent, 'secret');
+            if(hash_equals($githubSignature,$githubSignatureCheck)){
+                $message = "github signature doesn't match.";
+                \Log::info($message);
+                return response()->json(['message'  => $message], 403);
+            }
+        }
         $payload = json_decode($request->getContent());
 
-        echo ("{$githubEvent}\n");
-        echo ("{$payload->ref}\n");
-
-        \Log::info($githubEvent);
-        \Log::info($payload->ref);
-        \Log::info($githubSignature);
-        \Log::info($githubSignatureCheck);
-        \Log::info(hash_equals($githubSignature,$githubSignatureCheck));
+        if( $payload->ref != config('deploy.github.branch')) {
+            $message = "github branch doesn't allowed.";
+            \Log::info($message);
+            return response()->json([
+                'message' => $message
+            ], 404);
+        }
+        event()->fire(new GithubPushed($payload));
         \Log::info(shell_exec('ls -la'));
+        return response()->json([
+           'message'    => 'github push processed.'
+        ], 200);
     }
 }
