@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use function hash_equals;
 use Illuminate\Http\Request;
 
 class GithubController extends Controller
@@ -16,10 +17,11 @@ class GithubController extends Controller
 
         echo ("{$githubEvent}\n");
         echo ("{$payload->ref}\n");
-        
+
         \Log::info($githubEvent);
         \Log::info($payload->ref);
         \Log::info($githubSignature);
         \Log::info($githubSignatureCheck);
+        \Log::info(hash_equals($githubSignature,$githubSignatureCheck));
     }
 }
