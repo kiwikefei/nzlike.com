@@ -2,7 +2,6 @@
 
 namespace App\Services\Deployment;
 
-use Log;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -42,7 +41,7 @@ class DeploymentController extends Controller
 
         if( $payload->ref != config('deploy.github.branch')) {
             $message = "github branch doesn't allowed.";
-            Log::info($message);
+            \Log::info($message);
             return response()->json([
                 'message' => $message
             ], 404);

@@ -2,7 +2,6 @@
 namespace App\Services\Deployment;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -35,12 +34,12 @@ class DeployWebsiteJob implements ShouldQueue
 
         chdir(base_path());
 
-        Log::info('Starting executing commands.');
+        \Log::info('Starting executing commands.');
         foreach($this->commends as $command) {
-            Log::info('command => ' . $command . ' starting');
+            \Log::info('command => ' . $command . ' starting');
             shell_exec($command);
-            Log::info('command => ' . $command . ' done.');
+            \Log::info('command => ' . $command . ' done.');
         }
-        Log::info('All commands executed.');
+        \Log::info('All commands executed.');
     }
 }
