@@ -13,7 +13,7 @@ class DeployWebsiteJob implements ShouldQueue
 
     protected $payload;
 
-    protected $generalCommends = [
+    protected $generalCommands = [
         'git reset --hard HEAD',
         'git checkout master',
         'git pull origin master',
@@ -22,7 +22,7 @@ class DeployWebsiteJob implements ShouldQueue
     protected $npmCommands = [
         'npm run production',
     ];
-    protected $npmFolders = [
+    protected $npmRequiredFolders = [
         'resources/assets/*'
     ];
 
@@ -40,7 +40,12 @@ class DeployWebsiteJob implements ShouldQueue
         chdir(base_path());
 
         \Log::info('Starting executing commands.');
-        foreach($this->generalCommends as $command) {
+        $this->runCommands();
+        \Log::info('All commands executed.');
+    }
+    private function runCommands()
+    {
+        foreach($this->generalCommands as $command) {
             \Log::info('command => ' . $command . ' starting...');
             shell_exec($command);
             \Log::info('command => ' . $command . ' done.');
@@ -54,14 +59,13 @@ class DeployWebsiteJob implements ShouldQueue
                 \Log::info('command => '. $command . ' done.');
             }
         }
-        \Log::info('All commands executed.');
     }
     private function needRunNpm()
     {
         foreach($this->payload->commits as $commit){
-            foreach($commit->modified as $file){
-                foreach($this->npmFolders as $npmFolder){
-                    if(str_is($npmFolder,$file)){
+            foreach($commit->modified as $modifiedFile){
+                foreach($this->npmRequiredFolders as $npmRequiredFolder){
+                    if(str_is($npmRequiredFolder,$modifiedFile)){
                         return true;
                     }
                 }
