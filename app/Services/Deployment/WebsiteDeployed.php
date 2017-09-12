@@ -31,7 +31,7 @@ class WebsiteDeployed extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['slack'];
     }
 
     /**
@@ -58,7 +58,8 @@ class WebsiteDeployed extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'ref'       =>  $this->payload->ref,
+            'compare'   =>  $this->payload->compare,
         ];
     }
 }
