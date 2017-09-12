@@ -18,7 +18,7 @@ class DeployWebsiteJob implements ShouldQueue
         'git checkout master',
         'git pull origin master',
         'php artisan migrate',
-//        'npm run production ',
+        'npm run production ',
     ];
 
     public function __construct($payload)
