@@ -18,7 +18,7 @@ class DeploymentController extends Controller
 
         $githubContent = $request->getContent();
 
-        $githubWebhookSecret = config('deploy.github.webhook_key');
+        $githubWebhookSecret = config('deploy.github.webhook_secret');
 
         if($githubWebhookSecret){
             $githubSignature =  $request->header('X-Hub-Signature');

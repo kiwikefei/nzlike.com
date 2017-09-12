@@ -1,5 +1,5 @@
 <?php
 return [
-    'hook'  => env('SLACK_HOOK_ENDPOINT',''),
+    'webhook'  => env('SLACK_WEBHOOK',''),
     'team'  => env('SLACK_TEAM_URL', ''),
 ];
