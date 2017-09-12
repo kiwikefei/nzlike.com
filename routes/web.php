@@ -7,6 +7,3 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', function(){
-    (new Deployment)->notify(new WebsiteDeployed("Hello Universe @andy"));
-});
