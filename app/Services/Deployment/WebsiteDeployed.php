@@ -39,7 +39,7 @@ class WebsiteDeployed extends Notification
             ->success()
             ->content($this->payload)
             ->attachment(function($attachment){
-                $attachment->title('Deployment', url('deployment/1'))
+                $attachment->title('Deployment' . $this->payload->ref, url('deployment/1'))
                     ->fields([
                         'Hey'   => 'Yo.',
                     ]);

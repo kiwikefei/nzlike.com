@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Deployment;
 
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -41,6 +42,8 @@ class DeployWebsiteJob implements ShouldQueue
         \Log::info('Starting executing commands.');
         $this->runCommands();
         \Log::info('All commands executed.');
+        $this->sendSlackNotification();
+        \Log::info('Slack Notification delivered.');
     }
     private function runCommands()
     {
@@ -58,6 +61,10 @@ class DeployWebsiteJob implements ShouldQueue
                 \Log::info('command => '. $command . ' done.');
             }
         }
+    }
+    private function sendSlackNotification()
+    {
+        (new Deployment)->notify(new WebsiteDeployed($this->payload));
     }
     private function needRunNpm()
     {
