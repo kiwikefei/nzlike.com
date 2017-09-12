@@ -13,12 +13,17 @@ class DeployWebsiteJob implements ShouldQueue
 
     protected $payload;
 
-    protected $commends = [
+    protected $generalCommends = [
         'git reset --hard HEAD',
         'git checkout master',
         'git pull origin master',
         'php artisan migrate',
-        'npm run production ',
+    ];
+    protected $npmCommands = [
+        'npm run production',
+    ];
+    protected $npmFolders = [
+        'resources/assets/*'
     ];
 
     public function __construct($payload)
@@ -35,11 +40,32 @@ class DeployWebsiteJob implements ShouldQueue
         chdir(base_path());
 
         \Log::info('Starting executing commands.');
-        foreach($this->commends as $command) {
-            \Log::info('command => ' . $command . ' starting');
+        foreach($this->generalCommends as $command) {
+            \Log::info('command => ' . $command . ' starting...');
             shell_exec($command);
             \Log::info('command => ' . $command . ' done.');
         }
+
+        if($this->needRunNpm()){
+            foreach($this->npmCommands as $command) {
+                \Log::info('npm command => '. $command . 'starting...');
+                shell_exec($command);
+                \Log::info('npm command => '. $command . ' done.');
+            }
+        }
         \Log::info('All commands executed.');
+    }
+    private function needRunNpm()
+    {
+        foreach($this->payload->commits as $commit){
+            foreach($commit->modified as $file){
+                foreach($this->npmFolders as $npmFolder){
+                    if(str_is($npmFolder,$file)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
