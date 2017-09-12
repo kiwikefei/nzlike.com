@@ -31,6 +31,7 @@ class SendSlackNotificationJob implements ShouldQueue
      */
     public function handle()
     {
+        \Log::info('processing notification');
         Notification::route('mail','kiwikefei@gmail.com')
             ->notify(new WebsiteDeployed($this->payload));
     }

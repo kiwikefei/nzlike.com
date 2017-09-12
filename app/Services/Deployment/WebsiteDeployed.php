@@ -42,6 +42,7 @@ class WebsiteDeployed extends Notification
      */
     public function toMail($notifiable)
     {
+        \Log::info('sending mail');
         return (new MailMessage)
                     ->line("The introduction to the notification.{$this->payload->ref}")
                     ->action('Notification Action', url('/'))
