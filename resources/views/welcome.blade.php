@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="/css/app.css">
 </head>
 <body>
-<p>Hello Nzlike.</p>
+<div class="container">
+    <p>Hello Nzlike.</p>
+</div>
 </body>
 </html>
