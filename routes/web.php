@@ -8,5 +8,5 @@ Route::get('/', function () {
 });
 
 Route::get('/test', function(){
-    (new Deployment)->notify(new WebsiteDeployed("HHHHFDKSFJ"));
+    (new Deployment)->notify(new WebsiteDeployed("Hello Universe @andy"));
 });
