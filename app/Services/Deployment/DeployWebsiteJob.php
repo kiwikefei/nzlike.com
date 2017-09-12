@@ -1,8 +1,8 @@
 <?php
 namespace App\Services\Deployment;
 
-use Log;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -19,7 +19,7 @@ class DeployWebsiteJob implements ShouldQueue
         'git checkout master',
         'git pull origin master',
         'php artisan migrate',
-        'npm run production ',
+//        'npm run production ',
     ];
 
     public function __construct($payload)
