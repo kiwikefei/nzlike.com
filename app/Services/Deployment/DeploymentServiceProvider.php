@@ -21,7 +21,7 @@ class DeploymentServiceProvider extends ServiceProvider
 
     /**
      * Register the application services.
-     *
+     * commit
      * @return void
      */
     public function register()
