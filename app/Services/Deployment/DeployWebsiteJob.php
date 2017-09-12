@@ -47,14 +47,12 @@ class DeployWebsiteJob implements ShouldQueue
         }
 
         if($this->needRunNpm()){
-            \Log::info('npm run required');
+            \Log::info('* * * npm run required * * *');
             foreach($this->npmCommands as $command) {
-                \Log::info('command => '. $command . 'starting...');
+                \Log::info('command => '. $command . ' starting...');
                 shell_exec($command);
                 \Log::info('command => '. $command . ' done.');
             }
-        }else{
-            \Log::info('no npm run required');
         }
         \Log::info('All commands executed.');
     }
