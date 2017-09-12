@@ -17,7 +17,6 @@ class DeployWebsiteJob implements ShouldQueue
         'git reset --hard HEAD',
         'git checkout master',
         'git pull origin master',
-        'php artisan migrate',
     ];
     protected $npmCommands = [
         'npm run production',
