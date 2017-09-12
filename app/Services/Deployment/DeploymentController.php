@@ -46,7 +46,9 @@ class DeploymentController extends Controller
                 'message' => $message
             ], 404);
         }
-        DeployWebsiteJob::dispatch($payload);
+        DeployWebsiteJob::withChain([
+            new SendSlackNotificationJob($payload)
+        ])->dispatch($payload);
         return response()->json([
             'message'    => 'DeployWebsite job dispatched.'
         ], 200);
