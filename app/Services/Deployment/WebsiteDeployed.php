@@ -59,7 +59,7 @@ class WebsiteDeployed extends Notification
             ->attachment(function($attachment) use( $deployment) {
                 $attachment->title("Click to see changes", $deployment['changes'])
                     ->fields($deployment['fields'])
-                    ->footer('github')
+                    ->footer('Pushed from github')
                     ->timestamp($deployment['timestamp']);
             });
 
