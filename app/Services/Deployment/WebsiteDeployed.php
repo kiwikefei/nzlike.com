@@ -35,7 +35,7 @@ class WebsiteDeployed extends Notification
     }
     public function toSlack($notifiable)
     {
-        $pusher = $this->payload->head_commit->committer->name;
+        $pusher = $this->payload->head_commit->committer;
         $changes = $this->payload->compare;
         $commits = $this->payload->commits;
         $website = config('app.name');
@@ -43,17 +43,16 @@ class WebsiteDeployed extends Notification
         $fields = [];
         $i = 0;
         foreach ($commits as $commit){
-            $committer = $commit->committer;
             $i ++;
             $message = $commit->message;
             $url = $commit->url;
-            $fields["Commit {$i}: "] = "<{$url}|{$message}>";
+            $fields["Commit {$i} "] = "<{$url}|{$message}>";
         }
         $deployment = compact('website','pusher','changes','fields');
 //s aa
         return (new SlackMessage)
             ->success()
-            ->content("New delivery for [{$website}] processed. by:{$pusher}")
+            ->content("New delivery for [{$website}] processed. by: {$pusher->name}($pusher->email)")
             ->attachment(function($attachment) use( $deployment) {
                 $attachment->title("Click to see changes", $deployment['changes'])
                     ->fields($deployment['fields']);
