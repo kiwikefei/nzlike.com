@@ -35,7 +35,7 @@ class WebsiteDeployed extends Notification
     }
     public function toSlack($notifiable)
     {
-        $pusher = $this->payload->head_commit->committer;
+        $pusher = $this->payload->head_commit->committer->name;
 //        $receiver = $pusher->name;
 //        $changes = $this->payload->compare;
 //        $commits = $this->payload->commits;
