@@ -36,27 +36,25 @@ class WebsiteDeployed extends Notification
     public function toSlack($notifiable)
     {
         $pusher = $this->payload->head_commit->committer->name;
-//        $receiver = $pusher->name;
-//        $changes = $this->payload->compare;
-//        $commits = $this->payload->commits;
-//        $website = app()->name();
-//        $fields = [];
-//        foreach ($commits as $commit){
-//            $committer = $commit->committer;
-//            $message = $commit->message;
-//            $url = $commit->url;
-//            $fields["<{$url}|{$message}>"] = "{$committer}";
-//        }
-//        $deployment = compact('website','pusher','receiver','changes','fields');
+        $changes = $this->payload->compare;
+        $commits = $this->payload->commits;
+        $website = app()->name();
+        $fields = [];
+        foreach ($commits as $commit){
+            $committer = $commit->committer;
+            $message = $commit->message;
+            $url = $commit->url;
+            $fields["<{$url}|{$message}>"] = "{$committer->name}";
+        }
+        $deployment = compact('website','pusher','changes','fields');
 
         return (new SlackMessage)
             ->success()
             ->content($this->payload)
-            ->attachment(function($attachment) use($pusher){
-                $attachment->title("New delivery by @{$pusher}", url('test/1'))
-                    ->fields([
-                        'Hey'   => 'Yo.',
-                    ]);
+            ->attachment(function($attachment) use( $deployment) {
+                list($pusher, $changes, $website, $fields) = $deployment;
+                $attachment->title("New delivery for [{$website}] processed. @{$pusher}", $changes)
+                    ->fields($fields);
             });
 
     }
