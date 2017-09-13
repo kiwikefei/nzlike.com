@@ -45,7 +45,7 @@ class WebsiteDeployed extends Notification
             $committer = $commit->committer;
             $message = $commit->message;
             $url = $commit->url;
-            $fields["<{$url}|[{$message}]>"] = "{$committer->name}";
+            $fields["commit"] = "<{$url}|{$message}>";
         }
         $deployment = compact('website','pusher','changes','fields');
 
