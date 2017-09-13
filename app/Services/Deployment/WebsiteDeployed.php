@@ -40,7 +40,6 @@ class WebsiteDeployed extends Notification
         $changes = $this->payload->compare;
         $commits = $this->payload->commits;
         $timestamp = $this->payload->head_commit->timestamp;
-        $pushTime = Carbon::parse($timestamp)->toDateTimeString();
         $website = config('app.name');
         $fields = [];
         $i = 0;
@@ -48,7 +47,9 @@ class WebsiteDeployed extends Notification
             $i ++;
             $message = $commit->message;
             $url = $commit->url;
-            $fields["Commit {$i} ({$pushTime})"] = "<{$url}|{$message}>";
+            $commitTime = Carbon::parse($commit->timestamp)->toDateTimeString();
+
+            $fields["Commit {$i} ({$commitTime})"] = "<{$url}|{$message}>";
         }
         $deployment = compact('website','pusher','changes','fields','timestamp');
 //s aa
