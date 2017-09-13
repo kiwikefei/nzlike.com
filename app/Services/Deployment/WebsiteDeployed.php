@@ -38,7 +38,8 @@ class WebsiteDeployed extends Notification
         $pusher = $this->payload->head_commit->committer->name;
         $changes = $this->payload->compare;
         $commits = $this->payload->commits;
-        $website = app()->name();
+        $website = app()->name;
+
         $fields = [];
         foreach ($commits as $commit){
             $committer = $commit->committer;
