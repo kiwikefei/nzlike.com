@@ -47,7 +47,7 @@ class WebsiteDeployed extends Notification
             $i ++;
             $message = $commit->message;
             $url = $commit->url;
-            $fields["Commit {$i} ({$commit->timestamp})"] = "<{$url}|{$message}>";
+            $fields["Commit {$i} ({Carbon::parse($commit->timestamp)->toDateTimeString()})"] = "<{$url}|{$message}>";
         }
         $deployment = compact('website','pusher','changes','fields','timestamp');
 //s aa
