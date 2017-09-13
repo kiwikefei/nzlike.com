@@ -58,8 +58,7 @@ class WebsiteDeployed extends Notification
                 $attachment->title("Click to see changes", $deployment['changes'])
                     ->fields($deployment['fields'])
                     ->footer('github')
-                    ->timestemp($deployment['timestamp']);
-
+                    ->timestamp($deployment['timestamp']);
             });
 
     }
