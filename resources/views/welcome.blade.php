@@ -12,7 +12,6 @@
 <div class="container">
     <p>Hello Nzlike.</p>
 	<p>From now on, on yourself.</p>
-    {{ make some error() }}
 </div>
 </body>
 </html>
