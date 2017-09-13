@@ -35,7 +35,7 @@ class WebsiteDeployed extends Notification
     }
     public function toSlack($notifiable)
     {
-//        $pusher = $this->payload->head_commit->committer;
+        $pusher = $this->payload->head_commit->committer;
 //        $receiver = $pusher->name;
 //        $changes = $this->payload->compare;
 //        $commits = $this->payload->commits;
@@ -52,9 +52,8 @@ class WebsiteDeployed extends Notification
         return (new SlackMessage)
             ->success()
             ->content($this->payload)
-//            ->attachment(function($attachment) use( $deployment) {
-            ->attachment(function($attachment) {
-                $attachment->title("New delivery", url('test/1'))
+            ->attachment(function($attachment) use($pusher){
+                $attachment->title("New delivery by @{$pusher}", url('test/1'))
                     ->fields([
                         'Hey'   => 'Yo.',
                     ]);
