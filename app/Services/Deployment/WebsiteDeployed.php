@@ -53,7 +53,7 @@ class WebsiteDeployed extends Notification
             ->success()
             ->content("New delivery for [{$website}] processed. by:{$pusher}")
             ->attachment(function($attachment) use( $deployment) {
-                $attachment->title("{$deployment['']}", $deployment['changes'])
+                $attachment->title("Click to see changes", $deployment['changes'])
                     ->fields($deployment['fields']);
             });
 
