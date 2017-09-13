@@ -51,9 +51,9 @@ class WebsiteDeployed extends Notification
 
         return (new SlackMessage)
             ->success()
-            ->content($this->payload)
+            ->content("New delivery for [{$website}] processed. by:{$pusher}")
             ->attachment(function($attachment) use( $deployment) {
-                $attachment->title("New delivery for [{$deployment['website']}] processed. @{$deployment['pusher']}", $deployment['changes'])
+                $attachment->title("{$deployment['']}", $deployment['changes'])
                     ->fields($deployment['fields']);
             });
 
