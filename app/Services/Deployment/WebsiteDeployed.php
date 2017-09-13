@@ -41,11 +41,13 @@ class WebsiteDeployed extends Notification
         $website = config('app.name');
 
         $fields = [];
+        $i = 0;
         foreach ($commits as $commit){
             $committer = $commit->committer;
+            $i ++;
             $message = $commit->message;
             $url = $commit->url;
-            $fields["commit"] = "<{$url}|{$message}>";
+            $fields["Commit {$i}: "] = "<{$url}|{$message}>";
         }
         $deployment = compact('website','pusher','changes','fields');
 //s aa
