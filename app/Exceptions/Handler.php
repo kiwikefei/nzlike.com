@@ -34,8 +34,12 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $exception
      * @return void
      */
+    private $sentryID;
     public function report(Exception $exception)
     {
+        if ($this->shouldReport($exception)) {
+            $this->sentryID = app('sentry')->captureException($exception);
+        }
         parent::report($exception);
     }
 
@@ -48,6 +52,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+//        return parent::render($request, $exception);
+        return response()->view('errors.500', [
+            'sentryID' => $this->sentryID,
+        ], 500);
     }
 }
