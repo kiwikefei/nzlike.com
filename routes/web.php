@@ -1,4 +1,6 @@
 <?php
+use App\User;
+use App\Http\Resources\Users as UserResource;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -11,4 +13,11 @@ Route::get('/test', function(){
 });
 Route::get('/test2', function(){
     return session()->get('ttt');
+});
+Route::group([
+    'prefix' => 'api'
+], function($router){
+    $router->get('users', function(){
+        return UserResource::collection(User::paginate(20));
+    });
 });
