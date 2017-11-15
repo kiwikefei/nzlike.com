@@ -21,3 +21,9 @@ Route::group([
         return UserResource::collection(User::paginate(20));
     });
 });
+
+Route::group([
+    'prefix'    => 'notes'
+], function($router){
+    $router->get('', 'NoteController@index');
+});
