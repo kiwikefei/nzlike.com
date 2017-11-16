@@ -1,9 +1,14 @@
 <?php
 namespace App\Filters;
-Trait Filterable
+
+trait Filterable
 {
+    /**
+     * @param $query
+     * @param AbstractFilter $filter
+     */
     public function scopeFilter($query, AbstractFilter $filter)
     {
-        return $filter->apply($query);
+        $filter->apply($query);
     }
 }
