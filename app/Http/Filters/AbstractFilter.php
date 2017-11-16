@@ -16,12 +16,12 @@ abstract class AbstractFilter
     public function apply($builder)
     {
         $this->builder = $builder;
-        foreach( $this->getFilters() as $filter => $value)
-        {
+        foreach( $this->getFilters() as $filter => $value) {
             if(method_exists($this, $filter)){
                 $this->$filter($value);
             }
         }
+        return $this->builder;
     }
 
     private function getFilters()

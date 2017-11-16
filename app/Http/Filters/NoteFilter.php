@@ -10,8 +10,8 @@ class NoteFilter extends AbstractFilter
         'title', 'published'
     ];
 
-    public function title()
+    protected function title($title)
     {
-        
+        return $this->builder->where('title', 'like', "%{$title}%");
     }
 }
